@@ -25,7 +25,9 @@ class Student_courses(Model):
 	student_id = ForeignKeyField(Students, to_field='id')
 	courses_id = ForeignKeyField(Courses, to_field='id')
 
-
+	class Meta:
+		database = conn
+		
 st_30 = Students.select().where(Students.age > 30)
 for i in st_30:
     print('студенты старше 30 лет: ',i.name)
@@ -34,6 +36,6 @@ st_py = Students.select().join(Student_courses).join(Courses).where(Student_cour
 for j in st_py:
     print('студенты изучающие python: ', j.name)
 
-st_spb_py = Students.select().join(Student_courses).where(Student_courses.courses_id == 1, Students.city == 'Spb')
+st_spb_py = Students.select().join(Student_courses).join(Courses).where(Student_courses.courses_id == 1, Students.city == 'Spb')
 for k in st_spb_py:
     print('студенты изучающие python в СПб: ', k.name)
